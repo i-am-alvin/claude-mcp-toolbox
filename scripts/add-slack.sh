@@ -36,6 +36,7 @@ claude mcp add "${name}" -s user \
   -e "SLACK_MCP_XOXP_TOKEN=${token}" \
   -e "SLACK_MCP_USERS_CACHE=${cache_dir}/users.json" \
   -e "SLACK_MCP_CHANNELS_CACHE=${cache_dir}/channels.json" \
+  -e "SLACK_MCP_ADD_MESSAGE_TOOL=true" \
   -- npx -y slack-mcp-server --transport stdio
 
 cat <<EOF

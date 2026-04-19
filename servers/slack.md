@@ -52,8 +52,11 @@ claude mcp add slack-<workspace> -s user \
   -e SLACK_MCP_XOXP_TOKEN=<xoxp-...> \
   -e SLACK_MCP_USERS_CACHE=$HOME/.cache/slack-mcp/<workspace>/users.json \
   -e SLACK_MCP_CHANNELS_CACHE=$HOME/.cache/slack-mcp/<workspace>/channels.json \
+  -e SLACK_MCP_ADD_MESSAGE_TOOL=true \
   -- npx -y slack-mcp-server --transport stdio
 ```
+
+> Without `SLACK_MCP_ADD_MESSAGE_TOOL`, the server won't expose the `conversations_add_message` tool (write operations are opt-in by default for safety). Valid values: `true` (allow all channels), comma-separated channel IDs (allowlist), or `!C123,C456` (blocklist). A similar flag `SLACK_MCP_MARK_TOOL` gates the mark-as-read capability.
 
 ### 3. Verify
 

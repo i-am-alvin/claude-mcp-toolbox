@@ -1,0 +1,23 @@
+# Never commit credentials
+*.env
+*.env.local
+*.pem
+*.key
+*_tokens.json
+*_client_info.json
+*_code_verifier.txt
+*_lock.json
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log

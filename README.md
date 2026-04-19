@@ -76,6 +76,40 @@ Each script is thin — it lays out the flags correctly and points you at the ne
 - [`gcloud`](https://cloud.google.com/sdk/docs/install) (Google Workspace): for GCP project/API/consent-screen setup
 - [`gh`](https://cli.github.com/) (optional): only for cloning/forking this repo
 
+## Sharing within your org
+
+Once you've set up the infrastructure (Slack App, GCP project) for your workspace, teammates in the same org can reuse it without starting from scratch — but **each person still authorizes separately and keeps their own tokens**. Identity never transfers.
+
+### What's shareable vs. per-person
+
+| Component | Shareable within org? | Notes |
+|---|---|---|
+| Slack App (unlisted) | ✅ | Add teammates as App collaborators; each installs separately to get their own `xoxp-` |
+| Slack App `client_id` / `client_secret` | ✅ | Desktop-style credentials — not truly secret |
+| **Slack `xoxp-` user token** | ❌ **Never share** | Holding this = acting as that person |
+| GCP project | ✅ | Grant teammates IAM Viewer (or higher) |
+| GCP Desktop OAuth `client_id` / `client_secret` | ✅ | Google docs explicitly call these "not secret" for installed apps |
+| **Google refresh tokens** (`~/.gws-auth/<workspace>/*.json`) | ❌ **Never share** | Same as above — identity bearer |
+
+### Onboarding a teammate (Bob joins Alice's setup)
+
+**Slack**
+1. Alice: [api.slack.com/apps](https://api.slack.com/apps) → her `Claude MCP (<workspace>)` App → **Collaborators** → add Bob
+2. Bob: opens the same App → **Install to Workspace** (under his own Slack account) → copies *his* `xoxp-` token
+3. Bob: `./scripts/add-slack.sh <workspace> <Bob's xoxp-token>`
+
+**Google Workspace**
+1. Alice: [console.cloud.google.com](https://console.cloud.google.com) → IAM on her `claude-mcp-<workspace>` project → grant Bob Viewer (or higher)
+2. Alice: shares `client_id` + `client_secret` with Bob via a team secrets manager (1Password / Bitwarden / etc.) — these are Desktop OAuth creds, fine to share within the team
+3. Bob: `./scripts/add-google-workspace.sh <workspace> <client_id> <client_secret> <port>`
+4. Bob: restarts Claude Code, calls `mcp__gws-<workspace>__start_google_auth` in the new session, completes OAuth in his browser → token lands in his own `~/.gws-auth/<workspace>/<bob@company.com>.json`
+
+Alice's and Bob's tokens live on their own machines, in their own home directories, under their own email-named files. Zero overlap.
+
+### External users
+
+If someone is in a different org/workspace, they can't reuse your infra — Slack Apps are tied to their installing workspace, and GCP projects are tied to their owning org. They follow the full per-server playbook to set up their own infrastructure (~30 min per server).
+
 ## License
 
 MIT

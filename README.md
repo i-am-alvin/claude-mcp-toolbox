@@ -18,7 +18,7 @@ This repo captures the patterns that actually work, end-to-end, including:
 
 | Server | Why | Auth pattern |
 |---|---|---|
-| [Notion](servers/notion.md) | Built-in connector's OAuth callback is broken; one connector = one workspace | [`mcp-remote`](https://github.com/geelen/mcp-remote) + DCR, per-workspace `MCP_REMOTE_CONFIG_DIR` |
+| [Notion](servers/notion.md) | Built-in connector's OAuth callback is broken; one connector = one workspace | [`mcp-remote`](https://github.com/geelen/mcp-remote) + DCR, per-workspace `MCP_REMOTE_CONFIG_DIR` *(single-session)*, or [`notion-daemon`](https://github.com/i-am-alvin/notion-daemon) *(multi-session)* |
 | [Slack](servers/slack.md) | Official `mcp.slack.com` forbids unlisted apps and doesn't support DCR | [`korotovsky/slack-mcp-server`](https://github.com/korotovsky/slack-mcp-server) + `xoxp-` user token |
 | [Google Workspace](servers/google-workspace.md) | Covers Gmail + Calendar + Drive + Docs + Sheets in one server, with direct-to-Google OAuth | [`taylorwilsdon/google_workspace_mcp`](https://github.com/taylorwilsdon/google_workspace_mcp) + self-owned Desktop OAuth client |
 

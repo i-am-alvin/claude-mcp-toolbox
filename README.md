@@ -20,7 +20,7 @@ This repo captures the patterns that actually work, end-to-end, including:
 |---|---|---|
 | [Notion](servers/notion.md) | Built-in connector's OAuth callback is broken; one connector = one workspace | [`mcp-remote`](https://github.com/geelen/mcp-remote) + DCR, per-workspace `MCP_REMOTE_CONFIG_DIR` *(single-session)*, or [`notion-daemon`](https://github.com/i-am-alvin/notion-daemon) *(multi-session)* |
 | [Slack](servers/slack.md) | Official `mcp.slack.com` forbids unlisted apps and doesn't support DCR | [`korotovsky/slack-mcp-server`](https://github.com/korotovsky/slack-mcp-server) + `xoxp-` user token |
-| [Google Workspace](servers/google-workspace.md) | Covers Gmail + Calendar + Drive + Docs + Sheets in one server, with direct-to-Google OAuth | [`taylorwilsdon/google_workspace_mcp`](https://github.com/taylorwilsdon/google_workspace_mcp) + self-owned Desktop OAuth client |
+| [Google Workspace](servers/google-workspace.md) | Covers Gmail + Calendar + Drive + Docs + Sheets in one server, with direct-to-Google OAuth | [`taylorwilsdon/google_workspace_mcp`](https://github.com/taylorwilsdon/google_workspace_mcp) + self-owned Desktop OAuth client + `launchd` HTTP daemon (multi-session) |
 
 ## Quickstart
 
@@ -53,10 +53,12 @@ claude-mcp-toolbox/
 │   ├── notion.md                   # Notion playbook
 │   ├── slack.md                    # Slack playbook
 │   └── google-workspace.md         # Google Workspace playbook
+├── packaging/
+│   └── gws-daemon.plist.tpl        # launchd template for the Google Workspace daemon
 └── scripts/
     ├── add-notion.sh               # wrapper around `claude mcp add` for Notion
     ├── add-slack.sh                # ... for Slack
-    └── add-google-workspace.sh     # ... for Google Workspace
+    └── add-google-workspace.sh     # ... for Google Workspace + launchd daemon
 ```
 
 Each script is thin — it lays out the flags correctly and points you at the next manual step. Read the corresponding playbook for the full context.
